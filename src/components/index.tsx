@@ -1,10 +1,4 @@
-import Heading from "./Heading";
+import TextInput from "./text-input";
 
-const mainPage = () => {
-    
-    return (
-        <Heading />
-    );
-};
 
-export default mainPage;
+export { TextInput };

@@ -1,12 +1,14 @@
-import Button from "@mui/material/Button";
+// import Button from "@mui/material/Button";
+import {WelcomePage} from "./pages/index"
 
 function App() {
 	return (
-		<div className="App">
-			<div>
-				<Button variant="contained">Hello World</Button>
-			</div>
-		</div>
+		<WelcomePage/>
+		// <div className="App">
+		// 	<div>
+		// 		<Button variant="contained">Hello World</Button>
+		// 	</div>
+		// </div>
 	);
 }
 
