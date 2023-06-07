@@ -1,13 +1,14 @@
-import Button from "@mui/material/Button";
-import {Form} from "./components/index"
+// import Button from "@mui/material/Button";
+import {WelcomePage} from "./pages/index"
 
 function App() {
 	return (
-		<><Form /><div className="App">
-			<div>
-				<Button variant="contained">Hello World</Button>
-			</div>
-		</div></>
+		<WelcomePage/>
+		// <div className="App">
+		// 	<div>
+		// 		<Button variant="contained">Hello World</Button>
+		// 	</div>
+		// </div>
 	);
 }
 

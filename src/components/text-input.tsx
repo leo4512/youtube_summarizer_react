@@ -1,22 +1,24 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import TextField from '@mui/material/TextField';
 
 interface TextInputProps {
   label: string;
-  value: string;
-  // onChange: (value: string) => void;
+  onChange: (value: string) => void;
 }
 
-const TextInput: React.FC<TextInputProps> = ({ label, value }) => {
-  // const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-  //   onChange(event.target.value);
-  // };
+const TextInput: React.FC<TextInputProps> = ({ label,onChange}) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    onChange(value);
+  };
 
   return (
+    
     <TextField
       label={label}
-      value={value}
+      onChange={ handleChange}
       variant="outlined"
+      sx={{ width: '244px'}} 
     />
   );
 };
