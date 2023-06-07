@@ -1,4 +1,4 @@
-const Background = () => {
+const Heading = () => {
     return (
         <div>
             <h1>YouTube Summarizer</h1>
@@ -6,4 +6,4 @@ const Background = () => {
     );
 };
 
-export default Background;
+export default Heading;
