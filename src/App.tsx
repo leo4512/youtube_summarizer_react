@@ -1,12 +1,13 @@
 import Button from "@mui/material/Button";
+import {Form} from "./components/index"
 
 function App() {
 	return (
-		<div className="App">
+		<><Form /><div className="App">
 			<div>
 				<Button variant="contained">Hello World</Button>
 			</div>
-		</div>
+		</div></>
 	);
 }
 
