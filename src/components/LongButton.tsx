@@ -5,7 +5,7 @@ import { ThemeProvider } from '@mui/material/styles';
 const LongButton = (prop: any) => {
   return (
     <ThemeProvider theme={theme}>
-      <Button variant="contained" color='primary' fullWidth>${prop.buttonText}</Button>
+      <Button variant="contained" color='primary'>${prop.buttonText}</Button>
     </ThemeProvider>
   );
 };
