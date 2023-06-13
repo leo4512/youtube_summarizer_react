@@ -44,8 +44,8 @@ const WelcomePage = () => {
           />
           <p>Don’t have an API key? <a href="https://platform.openai.com/account/api-keys" style={{ color: '#FF5C62', textDecoration: 'none' }}>Get one here</a> </p>
         </StyledDiv>
-        </StyledForm>
-      </WelcomeDiv>
+      </StyledForm>
+    </WelcomeDiv>
   );
 };
 
