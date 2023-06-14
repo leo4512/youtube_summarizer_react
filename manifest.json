@@ -3,8 +3,13 @@
     "manifest_version": 3,
     "name": "YouTube Summarizer",
     "description": "YouTube Summarizer",
+    "permissions": ["storage"],
     "action": {
         "default_popup": "js/index.html",
         "default_title": "YouTube Summarizer"
-    }
+    },
+    "host_permissions": [
+        "http://*/*",
+        "https://*/*"
+    ]
 }

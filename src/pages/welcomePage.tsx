@@ -1,14 +1,15 @@
 import { TextInput } from "../components/index";
-import styled from 'styled-components';
-import React, { useState } from 'react';
+import styled from "styled-components";
+import React, { useState } from "react";
+import SelectButton from "../components/select";
 
 const StyledForm = styled.div`
-  display:flex;
+  display: flex;
   flex-direction: column;
 `;
 
 const StyledDiv = styled.div`
-  margin-top: 20px; 
+  margin-top: 20px;
 `;
 
 const WelcomeDiv = styled.div`
@@ -16,36 +17,66 @@ const WelcomeDiv = styled.div`
   height: 255px;
   margin: auto;
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 `;
 
-const WelcomePage = () => {
-  const [inputValue, setInputValue] = useState('');
+const Button = styled.button`
+  /* Add your styling here */
+`;
 
-  const handleInputChange = (value: string) => {
-    setInputValue(value);
+const WelcomePage = () => {
+  const [language, setLanguage] = useState("");
+  const [apiKey, setApiKey] = useState("");
+
+  const handleSelectChange = (value: string) => {
+    setLanguage(value);
+    console.log(`Selected value is: ${value}`);
   };
-  console.log(inputValue);
+
+  const handleApiKeyChange = (value: string) => {
+    setApiKey(value);
+  };
+
+  const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    console.log("Language: ", language);
+    console.log("API key: ", apiKey);
+    chrome.storage.sync.set({ apiKey: apiKey, language: language });
+  };
+
+  // chrome.storage.sync.set({ apiKey: apiKey, language: language }, () => {
+  //   console.log("Values are set to " + apiKey + " and " + language);
+  // });
+
+  // Get values
+  chrome.storage.sync.get(["apiKey", "language"], (result) => {
+    console.log(
+      "Value currently is " + result.apiKey + " and " + result.language
+    );
+  });
 
   return (
     <WelcomeDiv>
       <h3>Some settings before we start</h3>
       <StyledForm>
-        <TextInput
-            label="Language"
-            onChange={handleInputChange}
-          />
+        <SelectButton onSelectChange={handleSelectChange} />
         <StyledDiv>
-          <TextInput
-            label="API key"
-            onChange={handleInputChange}
-          />
-          <p>Don’t have an API key? <a href="https://platform.openai.com/account/api-keys" style={{ color: '#FF5C62', textDecoration: 'none' }}>Get one here</a> </p>
+          <TextInput label="API key" onChange={handleApiKeyChange} />
+          <p>
+            Don’t have an API key?{" "}
+            <a
+              href="https://platform.openai.com/account/api-keys"
+              style={{ color: "#FF5C62", textDecoration: "none" }}
+            >
+              Get one here
+            </a>{" "}
+          </p>
         </StyledDiv>
-        </StyledForm>
-      </WelcomeDiv>
+      </StyledForm>
+      <Button onClick={handleSubmit}>Submit</Button>
+    </WelcomeDiv>
   );
 };
 
