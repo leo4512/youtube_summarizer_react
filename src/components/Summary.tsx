@@ -2,6 +2,7 @@
 import { Paper, Typography } from "@mui/material";
 import { theme } from '../styles/Theme';
 import { ThemeProvider } from '@mui/material/styles';
+import React from "react";
 
 
 const Summary = (prop: any) => {
