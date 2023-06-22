@@ -1,12 +1,18 @@
-import Button from '@mui/material/Button';
-import { theme } from '../styles/Theme';
-import { ThemeProvider } from '@mui/material/styles';
-import React from 'react';
+import Button from "@mui/material/Button";
+import { theme } from "../styles/Theme";
+import { ThemeProvider } from "@mui/material/styles";
 
-const LongButton = (prop: any) => {
+interface LongButtonProps {
+  buttonText: string;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+}
+
+const LongButton: React.FC<LongButtonProps> = ({ buttonText, onClick }) => {
   return (
     <ThemeProvider theme={theme}>
-      <Button variant="contained" color='primary'>${prop.buttonText}</Button>
+      <Button variant="contained" color="primary" onClick={onClick}>
+        {buttonText}
+      </Button>
     </ThemeProvider>
   );
 };
