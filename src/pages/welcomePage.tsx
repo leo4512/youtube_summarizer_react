@@ -3,6 +3,7 @@ import styled from "styled-components";
 import React, { useState } from "react";
 import SelectButton from "../components/select";
 import { LongButton } from "../components/LongButton";
+import { createBrowserHistory } from "history";
 
 const StyledForm = styled.div`
   display: flex;
@@ -24,11 +25,9 @@ const WelcomeDiv = styled.div`
   justify-content: center;
 `;
 
-const Button = styled.button`
-  /* Add your styling here */
-`;
-
 const WelcomePage = () => {
+  const history = createBrowserHistory();
+
   const [language, setLanguage] = useState("");
   const [apiKey, setApiKey] = useState("");
 
@@ -46,6 +45,8 @@ const WelcomePage = () => {
     console.log("Language: ", language);
     console.log("API key: ", apiKey);
     chrome.storage.sync.set({ apiKey: apiKey, language: language });
+    history.push("/setting");
+    console.log("hiii", history.push("/setting"));
   };
 
   // chrome.storage.sync.set({ apiKey: apiKey, language: language }, () => {
