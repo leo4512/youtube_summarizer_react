@@ -23,4 +23,4 @@ const TextInput: React.FC<TextInputProps> = ({ label,onChange}) => {
   );
 };
 
-export default TextInput;
+export { TextInput };
