@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { TextInput, LongButton } from "../components/index";
-import IconButton from '@mui/material/IconButton';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import IconButton from "@mui/material/IconButton";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const StyledForm = styled.div`
 	display: flex;
@@ -33,7 +33,7 @@ const SettingPage = () => {
 	const [apiKey, setApiKey] = useState("");
 	const [language, setLanguage] = useState("");
 
-    const handleLanguageChange = (value: string) => {
+	const handleLanguageChange = (value: string) => {
 		setLanguage(value);
 	};
 
@@ -42,27 +42,27 @@ const SettingPage = () => {
 	};
 	console.log(apiKey);
 
-    const handleSubmit = (): void => {
-        chrome.storage.sync.set({ apiKey, language }, () => {
-            console.log('The apiKey and language are saved.');
-        });
-    };
+	const handleSubmit = (): void => {
+		chrome.storage.sync.set({ apiKey, language }, () => {
+			console.log("The apiKey and language are saved.");
+		});
+	};
 
-    const goBack = (): void => {
+	const goBack = (): void => {
 		// Logic to go back, for example:
 		window.history.back();
 	};
 
 	return (
 		<SettingDiv>
-            <BackButton onClick={goBack}>
+			<BackButton onClick={goBack}>
 				<ArrowBackIcon />
 			</BackButton>
 			<StyledForm>
 				<TextInput label="Language" onChange={handleLanguageChange} />
 				<TextInput label="API key" onChange={handleApiChange} />
 			</StyledForm>
-            <LongButton onClick={handleSubmit}/>
+			<LongButton onClick={handleSubmit} buttonText={"Save"} />
 		</SettingDiv>
 	);
 };
