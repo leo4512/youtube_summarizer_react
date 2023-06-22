@@ -2,15 +2,18 @@
 import { Paper, Typography } from "@mui/material";
 import { theme } from '../styles/Theme';
 import { ThemeProvider } from '@mui/material/styles';
-import React from "react";
+
+interface SummaryProps {
+  summaryText: string;
+}
 
 
-const Summary = (prop: any) => {
+const Summary: React.FC<SummaryProps> = ({summaryText}) => {
   return (
     <ThemeProvider theme={theme}>
       <Paper color="background">
         <Typography align="justify">
-          ${prop.data.content}
+          {summaryText}
         </Typography>
       </Paper>
     </ThemeProvider>

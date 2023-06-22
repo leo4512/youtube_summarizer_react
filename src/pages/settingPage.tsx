@@ -52,7 +52,7 @@ const SettingPage = () => {
 		// Logic to go back, for example:
 		window.history.back();
 	};
-
+	// <LongButton buttonText="Confirm" onClick={handleSubmit}/>中存在buttonText的错误,暂时解决
 	return (
 		<SettingDiv>
             <BackButton onClick={goBack}>
@@ -62,7 +62,7 @@ const SettingPage = () => {
 				<TextInput label="Language" onChange={handleLanguageChange} />
 				<TextInput label="API key" onChange={handleApiChange} />
 			</StyledForm>
-            <LongButton onClick={handleSubmit}/>
+            <LongButton buttonText="Confirm" onClick={handleSubmit}/>
 		</SettingDiv>
 	);
 };
