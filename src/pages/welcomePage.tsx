@@ -2,10 +2,12 @@ import { TextInput } from "../components/index";
 import styled from "styled-components";
 import React, { useState } from "react";
 import SelectButton from "../components/select";
+import { LongButton } from "../components/LongButton";
 
 const StyledForm = styled.div`
   display: flex;
   flex-direction: column;
+  width: 240px;
 `;
 
 const StyledDiv = styled.div`
@@ -74,8 +76,8 @@ const WelcomePage = () => {
             </a>{" "}
           </p>
         </StyledDiv>
+        <LongButton buttonText="Let’s get started" onClick={handleSubmit} />
       </StyledForm>
-      <Button onClick={handleSubmit}>Submit</Button>
     </WelcomeDiv>
   );
 };

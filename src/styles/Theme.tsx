@@ -1,15 +1,15 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
   palette: {
-		primary: {
-			main: '#FF605A',
-		},
-    background: {
-      paper: '#000',
+    primary: {
+      main: "#FF605A",
     },
-	},
-	components: {
+    background: {
+      paper: "#000",
+    },
+  },
+  components: {
     MuiButton: {
       defaultProps: {
         fullWidth: true,
