@@ -3,6 +3,7 @@ import styled from "styled-components";
 import React, { useState } from "react";
 import SelectButton from "../components/select";
 import { LongButton } from "../components/LongButton";
+import { useNavigate } from "react-router-dom";
 
 const StyledForm = styled.div`
   display: flex;
@@ -24,11 +25,9 @@ const WelcomeDiv = styled.div`
   justify-content: center;
 `;
 
-const Button = styled.button`
-  /* Add your styling here */
-`;
-
 const WelcomePage = () => {
+  const navigate = useNavigate();
+
   const [language, setLanguage] = useState("");
   const [apiKey, setApiKey] = useState("");
 
@@ -46,6 +45,7 @@ const WelcomePage = () => {
     console.log("Language: ", language);
     console.log("API key: ", apiKey);
     chrome.storage.sync.set({ apiKey: apiKey, language: language });
+    navigate("/setting");
   };
 
   // chrome.storage.sync.set({ apiKey: apiKey, language: language }, () => {
@@ -76,7 +76,9 @@ const WelcomePage = () => {
             </a>{" "}
           </p>
         </StyledDiv>
+        {/* <Link to="/setting"> */}
         <LongButton buttonText="Let’s get started" onClick={handleSubmit} />
+        {/* </Link> */}
       </StyledForm>
     </WelcomeDiv>
   );

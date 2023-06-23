@@ -1,16 +1,15 @@
-// import Button from "@mui/material/Button";
-import React from "react";
-import AppRouter from "./router";
+import { HashRouter, Route, Routes } from "react-router-dom";
+import { WelcomePage, SettingPage } from "./pages";
 
 function App() {
-	return (
-		<AppRouter />
-		// <div className="App">
-		// 	<div>
-		// 		<Button variant="contained">Hello World</Button>
-		// 	</div>
-		// </div>
-	);
+  return (
+    <HashRouter basename="/">
+      <Routes>
+        <Route path="/" element={<WelcomePage />} />
+        <Route path="/setting" element={<SettingPage />} />
+      </Routes>
+    </HashRouter>
+  );
 }
 
 export default App;
