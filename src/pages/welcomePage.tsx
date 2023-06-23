@@ -1,13 +1,15 @@
 import styled from "styled-components";
 import React, { useRef, useState } from "react";
-import { TextInput, LongButton, SelectButton } from "../components/index"
+import { TextInput, LongButton, SelectButton } from "../components/index";
 import { useNavigate } from "react-router-dom";
 import { Heading } from "../components/Heading";
+import AlterBox from "../components/Alter";
 
 const StyledForm = styled.div`
   display: flex;
   flex-direction: column;
   width: 240px;
+  padding-bottom: 20px;
 `;
 
 const StyledDiv = styled.div`
@@ -16,7 +18,7 @@ const StyledDiv = styled.div`
 
 const WelcomeDiv = styled.div`
   width: 302px;
-  height: 300px;
+  // height: 300px;
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -29,6 +31,7 @@ const WelcomePage = () => {
 
   const apiKeyRef = useRef<HTMLInputElement | null>(null);
   const [language, setLanguage] = useState("");
+  const [showAlter, setShowAlter] = useState(false);
 
   const handleSelectChange = (value: string) => {
     setLanguage(value);
@@ -38,12 +41,14 @@ const WelcomePage = () => {
   const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const apiKey = apiKeyRef.current?.value;
-    if (apiKey && language) {
+    if (apiKey) {
       console.log("API key: ", apiKey);
       console.log("Language: ", language);
       chrome.storage.sync.set({ apiKey: apiKey, language: language });
+      navigate("/setting");
+    } else {
+      setShowAlter(true);
     }
-    navigate("/setting");
   };
 
   // Get values
@@ -58,7 +63,10 @@ const WelcomePage = () => {
       <Heading />
       <h4>Some settings before we start</h4>
       <StyledForm>
-        <SelectButton onSelectChange={handleSelectChange} />
+        <SelectButton
+          onSelectChange={handleSelectChange}
+          defaultLanguage="english"
+        />
         <StyledDiv>
           <TextInput label="API key" ref={apiKeyRef} />
           <p>
@@ -71,9 +79,8 @@ const WelcomePage = () => {
             </a>{" "}
           </p>
         </StyledDiv>
-        {/* <Link to="/setting"> */}
+        {showAlter && <AlterBox message="Please provide a valid api key" />}
         <LongButton buttonText="Let’s get started" onClick={handleSubmit} />
-        {/* </Link> */}
       </StyledForm>
     </WelcomeDiv>
   );

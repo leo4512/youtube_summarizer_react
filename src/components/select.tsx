@@ -2,13 +2,14 @@ import { Select, MenuItem } from "@mui/material";
 
 interface Props {
   onSelectChange: (value: string) => void;
+  defaultLanguage: string;
 }
 
-const SelectButton: React.FC<Props> = ({ onSelectChange }) => {
+const SelectButton: React.FC<Props> = ({ onSelectChange, defaultLanguage }) => {
   return (
     <div>
       <Select
-        defaultValue=""
+        defaultValue={defaultLanguage}
         style={{ width: 244 }}
         onChange={(event) => onSelectChange(event.target.value)}
       >

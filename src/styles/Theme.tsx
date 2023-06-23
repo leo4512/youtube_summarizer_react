@@ -14,6 +14,11 @@ const theme = createTheme({
       defaultProps: {
         fullWidth: true,
       },
+      styleOverrides: {
+        root: {
+          color: "white",
+        },
+      },
     },
     MuiPaper: {
       defaultProps: {

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { TextInput, LongButton, SelectButton } from "../components/index";
 import IconButton from "@mui/material/IconButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import AlterBox from "../components/Alter";
 
 const StyledForm = styled.div`
   display: flex;
@@ -10,7 +11,7 @@ const StyledForm = styled.div`
 `;
 
 const StyledDiv = styled.div`
-	margin-top: 20px;
+  margin-top: 20px;
 `;
 
 const SettingDiv = styled.div`
@@ -30,42 +31,56 @@ const BackButton = styled(IconButton)`
 `;
 
 const SettingPage = () => {
-	const apiKeyRef = useRef<HTMLInputElement>(null);
-	const [language, setLanguage] = useState("");
+  const apiKeyRef = useRef<HTMLInputElement>(null);
+  const [apiKey, setApiKey] = useState("");
+  const [language, setLanguage] = useState("");
+  const [showAlter, setShowAlter] = useState(false);
 
-	const handleSelectChange = (value: string) => {
-		setLanguage(value);
-		console.log(`Selected value is: ${value}`);
-	};
+  chrome.storage.sync.get(["apiKey", "language"], (result) => {
+    const apiKey = result.apiKey;
+    const language = result.language;
+    setLanguage(language);
+    console.log("Retrieved apiKey:", apiKey);
+    console.log("Retrieved language:", language);
+    // Use the retrieved data as needed
+  });
 
-	const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
-		event.preventDefault();
-		const apiKey = apiKeyRef.current?.value;
-		if (apiKey && language) {
-			console.log("API key: ", apiKey);
-			console.log("Language: ", language);
-			chrome.storage.sync.set({ apiKey: apiKey, language: language });
-		}
-	};
+  const handleSelectChange = (value: string) => {
+    setLanguage(value);
+    console.log(`Selected value is: ${value}`);
+  };
 
-	const goBack = (): void => {
-		window.history.back();
-	};
+  const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    const apiKey = apiKeyRef.current?.value;
+    if (apiKey) {
+      console.log("API key: ", apiKey);
+      console.log("Language: ", language);
+      chrome.storage.sync.set({ apiKey: apiKey, language: language });
+    } else {
+      setShowAlter(true);
+    }
+  };
 
-	return (
-		<SettingDiv>
-			<BackButton onClick={goBack}>
-				<ArrowBackIcon />
-			</BackButton>
-			<StyledForm>
-				<SelectButton onSelectChange={handleSelectChange} />
-				<StyledDiv>
-					<TextInput label="API key" ref={apiKeyRef} />
-				</StyledDiv>
-				<LongButton buttonText="Confirm" onClick={handleSubmit} />
-			</StyledForm>
-		</SettingDiv>
-	);
+  const goBack = (): void => {
+    window.history.back();
+  };
+
+  return (
+    <SettingDiv>
+      <BackButton onClick={goBack}>
+        <ArrowBackIcon />
+      </BackButton>
+      <StyledForm>
+        <SelectButton onSelectChange={handleSelectChange} />
+        <StyledDiv>
+          <TextInput label="API key" ref={apiKeyRef} />
+        </StyledDiv>
+        {showAlter && <AlterBox message="Please provide a valid api key" />}
+        <LongButton buttonText="Confirm" onClick={handleSubmit} />
+      </StyledForm>
+    </SettingDiv>
+  );
 };
 
 export default SettingPage;
