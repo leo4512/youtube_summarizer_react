@@ -1,5 +1,4 @@
-import WelcomePage from "./welcomePage"
-import SummaryPage from "./summaryPage";
+import WelcomePage from "./welcomePage";
+import SettingPage from "./settingPage";
 
-export { WelcomePage };
-export { SummaryPage };
+export { WelcomePage, SettingPage };

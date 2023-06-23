@@ -1,8 +1,8 @@
-import { TextInput } from "../components/index";
 import styled from "styled-components";
-import React, { useState } from "react";
-import SelectButton from "../components/select";
-import { LongButton } from "../components/LongButton";
+import React, { useRef, useState } from "react";
+import { TextInput, LongButton, SelectButton } from "../components/index"
+import { useNavigate } from "react-router-dom";
+import { Heading } from "../components/Heading";
 
 const StyledForm = styled.div`
   display: flex;
@@ -16,7 +16,7 @@ const StyledDiv = styled.div`
 
 const WelcomeDiv = styled.div`
   width: 302px;
-  height: 255px;
+  height: 300px;
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -24,33 +24,27 @@ const WelcomeDiv = styled.div`
   justify-content: center;
 `;
 
-const Button = styled.button`
-  /* Add your styling here */
-`;
-
 const WelcomePage = () => {
+  const navigate = useNavigate();
+
+  const apiKeyRef = useRef<HTMLInputElement | null>(null);
   const [language, setLanguage] = useState("");
-  const [apiKey, setApiKey] = useState("");
 
   const handleSelectChange = (value: string) => {
     setLanguage(value);
     console.log(`Selected value is: ${value}`);
   };
 
-  const handleApiKeyChange = (value: string) => {
-    setApiKey(value);
-  };
-
   const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    console.log("Language: ", language);
-    console.log("API key: ", apiKey);
-    chrome.storage.sync.set({ apiKey: apiKey, language: language });
+    const apiKey = apiKeyRef.current?.value;
+    if (apiKey && language) {
+      console.log("API key: ", apiKey);
+      console.log("Language: ", language);
+      chrome.storage.sync.set({ apiKey: apiKey, language: language });
+    }
+    navigate("/setting");
   };
-
-  // chrome.storage.sync.set({ apiKey: apiKey, language: language }, () => {
-  //   console.log("Values are set to " + apiKey + " and " + language);
-  // });
 
   // Get values
   chrome.storage.sync.get(["apiKey", "language"], (result) => {
@@ -61,11 +55,12 @@ const WelcomePage = () => {
 
   return (
     <WelcomeDiv>
-      <h3>Some settings before we start</h3>
+      <Heading />
+      <h4>Some settings before we start</h4>
       <StyledForm>
         <SelectButton onSelectChange={handleSelectChange} />
         <StyledDiv>
-          <TextInput label="API key" onChange={handleApiKeyChange} />
+          <TextInput label="API key" ref={apiKeyRef} />
           <p>
             Don’t have an API key?{" "}
             <a
@@ -76,7 +71,9 @@ const WelcomePage = () => {
             </a>{" "}
           </p>
         </StyledDiv>
+        {/* <Link to="/setting"> */}
         <LongButton buttonText="Let’s get started" onClick={handleSubmit} />
+        {/* </Link> */}
       </StyledForm>
     </WelcomeDiv>
   );
