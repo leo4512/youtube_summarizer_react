@@ -1,55 +1,54 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
-import { TextInput, LongButton } from "../components/index";
+import { TextInput, LongButton, SelectButton } from "../components/index";
 import IconButton from "@mui/material/IconButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const StyledForm = styled.div`
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
 `;
 
-// const StyledDiv = styled.div`
-// 	margin-top: 20px;
-// `;
+const StyledDiv = styled.div`
+	margin-top: 20px;
+`;
 
 const SettingDiv = styled.div`
-	width: 302px;
-	height: 255px;
-	margin: auto;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+  width: 302px;
+  height: 255px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 const BackButton = styled(IconButton)`
-	position: absolute;
-	top: 10px;
-	left: 10px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
 `;
 
 const SettingPage = () => {
-	const [apiKey, setApiKey] = useState("");
+	const apiKeyRef = useRef<HTMLInputElement>(null);
 	const [language, setLanguage] = useState("");
 
-	const handleLanguageChange = (value: string) => {
+	const handleSelectChange = (value: string) => {
 		setLanguage(value);
+		console.log(`Selected value is: ${value}`);
 	};
 
-	const handleApiChange = (value: string) => {
-		setApiKey(value);
-	};
-	console.log(apiKey);
-
-	const handleSubmit = (): void => {
-		chrome.storage.sync.set({ apiKey, language }, () => {
-			console.log("The apiKey and language are saved.");
-		});
+	const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
+		event.preventDefault();
+		const apiKey = apiKeyRef.current?.value;
+		if (apiKey && language) {
+			console.log("API key: ", apiKey);
+			console.log("Language: ", language);
+			chrome.storage.sync.set({ apiKey: apiKey, language: language });
+		}
 	};
 
 	const goBack = (): void => {
-		// Logic to go back, for example:
 		window.history.back();
 	};
 
@@ -59,10 +58,12 @@ const SettingPage = () => {
 				<ArrowBackIcon />
 			</BackButton>
 			<StyledForm>
-				<TextInput label="Language" onChange={handleLanguageChange} />
-				<TextInput label="API key" onChange={handleApiChange} />
+				<SelectButton onSelectChange={handleSelectChange} />
+				<StyledDiv>
+					<TextInput label="API key" ref={apiKeyRef} />
+				</StyledDiv>
+				<LongButton buttonText="Confirm" onClick={handleSubmit} />
 			</StyledForm>
-			<LongButton onClick={handleSubmit} buttonText={"Save"} />
 		</SettingDiv>
 	);
 };
