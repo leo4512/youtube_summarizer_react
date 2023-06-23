@@ -1,8 +1,6 @@
-import { TextInput } from "../components/index";
 import styled from "styled-components";
-import React, { useState } from "react";
-import SelectButton from "../components/select";
-import { LongButton } from "../components/LongButton";
+import React, { useRef, useState } from "react";
+import { TextInput, LongButton, SelectButton } from "../components/index"
 import { useNavigate } from "react-router-dom";
 import { Heading } from "../components/Heading";
 
@@ -29,29 +27,24 @@ const WelcomeDiv = styled.div`
 const WelcomePage = () => {
   const navigate = useNavigate();
 
+  const apiKeyRef = useRef<HTMLInputElement | null>(null);
   const [language, setLanguage] = useState("");
-  const [apiKey, setApiKey] = useState("");
 
   const handleSelectChange = (value: string) => {
     setLanguage(value);
     console.log(`Selected value is: ${value}`);
   };
 
-  const handleApiKeyChange = (value: string) => {
-    setApiKey(value);
-  };
-
   const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    console.log("Language: ", language);
-    console.log("API key: ", apiKey);
-    chrome.storage.sync.set({ apiKey: apiKey, language: language });
+    const apiKey = apiKeyRef.current?.value;
+    if (apiKey && language) {
+      console.log("API key: ", apiKey);
+      console.log("Language: ", language);
+      chrome.storage.sync.set({ apiKey: apiKey, language: language });
+    }
     navigate("/setting");
   };
-
-  // chrome.storage.sync.set({ apiKey: apiKey, language: language }, () => {
-  //   console.log("Values are set to " + apiKey + " and " + language);
-  // });
 
   // Get values
   chrome.storage.sync.get(["apiKey", "language"], (result) => {
@@ -67,7 +60,7 @@ const WelcomePage = () => {
       <StyledForm>
         <SelectButton onSelectChange={handleSelectChange} />
         <StyledDiv>
-          <TextInput label="API key" onChange={handleApiKeyChange} />
+          <TextInput label="API key" ref={apiKeyRef} />
           <p>
             Don’t have an API key?{" "}
             <a

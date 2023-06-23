@@ -1,6 +1,4 @@
-import { Select } from "antd";
-
-const { Option } = Select;
+import { Select, MenuItem } from "@mui/material";
 
 interface Props {
   onSelectChange: (value: string) => void;
@@ -10,24 +8,24 @@ const SelectButton: React.FC<Props> = ({ onSelectChange }) => {
   return (
     <div>
       <Select
-        defaultValue="Choose Language"
+        defaultValue=""
         style={{ width: 244 }}
-        onChange={onSelectChange}
+        onChange={(event) => onSelectChange(event.target.value)}
       >
-        <Option value="english">English</Option>
-        <Option value="chinese">中文</Option>
-        <Option value="spanish">Español</Option>
-        <Option value="french">Français</Option>
-        <Option value="german">Deutsch</Option>
-        <Option value="dutch">Nederlands</Option>
-        <Option value="russian">Русский</Option>
-        <Option value="japanese">日本語</Option>
-        <Option value="korean">한국어</Option>
-        <Option value="portuguese">Português</Option>
-        <Option value="arabic">العربية</Option>
+        <MenuItem value="english">English</MenuItem>
+        <MenuItem value="chinese">中文</MenuItem>
+        <MenuItem value="spanish">Español</MenuItem>
+        <MenuItem value="french">Français</MenuItem>
+        <MenuItem value="german">Deutsch</MenuItem>
+        <MenuItem value="dutch">Nederlands</MenuItem>
+        <MenuItem value="russian">Русский</MenuItem>
+        <MenuItem value="japanese">日本語</MenuItem>
+        <MenuItem value="korean">한국어</MenuItem>
+        <MenuItem value="portuguese">Português</MenuItem>
+        <MenuItem value="arabic">العربية</MenuItem>
       </Select>
     </div>
   );
 };
 
-export default SelectButton;
+export { SelectButton };
