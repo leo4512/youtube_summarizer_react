@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import SelectButton from "../components/select";
 import { LongButton } from "../components/LongButton";
 import { useNavigate } from "react-router-dom";
+import { Heading } from "../components/Heading";
 
 const StyledForm = styled.div`
   display: flex;
@@ -17,7 +18,7 @@ const StyledDiv = styled.div`
 
 const WelcomeDiv = styled.div`
   width: 302px;
-  height: 255px;
+  height: 300px;
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -61,7 +62,8 @@ const WelcomePage = () => {
 
   return (
     <WelcomeDiv>
-      <h3>Some settings before we start</h3>
+      <Heading />
+      <h4>Some settings before we start</h4>
       <StyledForm>
         <SelectButton onSelectChange={handleSelectChange} />
         <StyledDiv>
