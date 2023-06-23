@@ -3,7 +3,7 @@ import styled from "styled-components";
 import React, { useState } from "react";
 import SelectButton from "../components/select";
 import { LongButton } from "../components/LongButton";
-import { createBrowserHistory } from "history";
+import { useNavigate } from "react-router-dom";
 
 const StyledForm = styled.div`
   display: flex;
@@ -26,7 +26,7 @@ const WelcomeDiv = styled.div`
 `;
 
 const WelcomePage = () => {
-  const history = createBrowserHistory();
+  const navigate = useNavigate();
 
   const [language, setLanguage] = useState("");
   const [apiKey, setApiKey] = useState("");
@@ -45,8 +45,7 @@ const WelcomePage = () => {
     console.log("Language: ", language);
     console.log("API key: ", apiKey);
     chrome.storage.sync.set({ apiKey: apiKey, language: language });
-    history.push("/setting");
-    console.log("hiii", history.push("/setting"));
+    navigate("/setting");
   };
 
   // chrome.storage.sync.set({ apiKey: apiKey, language: language }, () => {
@@ -77,7 +76,9 @@ const WelcomePage = () => {
             </a>{" "}
           </p>
         </StyledDiv>
+        {/* <Link to="/setting"> */}
         <LongButton buttonText="Let’s get started" onClick={handleSubmit} />
+        {/* </Link> */}
       </StyledForm>
     </WelcomeDiv>
   );
