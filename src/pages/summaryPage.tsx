@@ -1,10 +1,9 @@
 import {LongButton} from '../components/LongButton';
 import {Summary} from '../components/Summary';
+import {Heading} from '../components/Heading';
 import {useRef, useEffect, useState} from 'react';
 import styled from "styled-components";
 import axios from 'axios';
-
-
 
 const SummaryDiv = styled.div`
   width: 323px;
@@ -13,8 +12,24 @@ const SummaryDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
 `;
+
+const SummaryPaper = styled.div`
+  height: 400px;
+  overflow: 'auto';
+`;
+
+const SummarizeDiv = styled.div`
+  width: 302px;
+  height: 255px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+`;
+
 
 const SummaryPage: React.FC = () => {
   const summaryRef = useRef<HTMLDivElement | null>(null);
@@ -32,16 +47,22 @@ const SummaryPage: React.FC = () => {
 
   const fetchData = async () => {
     try {
-      // const apiKey = chrome.storage.sync.get('apiKey');
-      // const language = chrome.storage.sync.get('language');
+      const apiKey = chrome.storage.sync.get('apiKey');
+      const language = chrome.storage.sync.get('language');
 
-      // const url = new URL(currentURL);
-      // const v = url.searchParams.get("v");
+      const url = new URL(currentURL);
+      const videoId = url.searchParams.get("v");
 
       const response = await axios.create({baseURL: 'https://youtubesummarizer-node-backend-b3ijrlrwga-as.a.run.app'}).post('/data', {
-        "apiKey":"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", 
-        "video_id": "Lqb_4zcI708", 
-        "language": "Chinese"});
+        "apiKey": apiKey, 
+        "video_id": videoId,
+        "language": language});
+      
+      // const response = await axios.create({baseURL: 'https://youtubesummarizer-node-backend-b3ijrlrwga-as.a.run.app'}).post('/data', {
+      //   "apiKey":"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", 
+      //   "video_id": "J0uLst8JGr8", 
+      //   "language": "Chinese"});
+      
       if (response.data && response.data.content) {
         setSummaryText(response.data.content);
 
@@ -68,13 +89,19 @@ const SummaryPage: React.FC = () => {
   if(result) {
     return (
       <SummaryDiv>
-        <Summary summaryText={summaryText}/>
+        <Heading/>
+        <SummaryPaper ref={summaryRef} >
+          <Summary summaryText={summaryText}/>
+        </SummaryPaper>
         <LongButton buttonText='Copy Summarization' onClick={copySummary} />
       </SummaryDiv>
     );
   } else {
     return (
-      <LongButton buttonText='Generate Summary' onClick={fetchData} />
+      <SummarizeDiv>
+        <Heading/>
+        <LongButton buttonText='Generate Summary' onClick={fetchData} />
+      </SummarizeDiv>
     );
   }
 };
