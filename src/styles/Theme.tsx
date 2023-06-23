@@ -6,7 +6,7 @@ const theme = createTheme({
       main: "#FF605A",
     },
     background: {
-      paper: "#000",
+      paper: "#f3f3f3",
     },
   },
   components: {
