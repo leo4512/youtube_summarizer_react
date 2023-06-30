@@ -29,7 +29,7 @@ const BackButton = styled(IconButton)`
   left: 10px;
 `;
 
-const SettingPage = () => {
+const SettingPage: React.FC = () => {
 	const apiKeyRef = useRef<HTMLInputElement>(null);
 	const [language, setLanguage] = useState("");
 
@@ -51,7 +51,7 @@ const SettingPage = () => {
 	const goBack = (): void => {
 		window.history.back();
 	};
-	// <LongButton buttonText="Confirm" onClick={handleSubmit}/>中存在buttonText的错误,暂时解决
+
 	return (
 		<SettingDiv>
 			<BackButton onClick={goBack}>
