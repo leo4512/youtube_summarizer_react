@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import { IconButton } from "@mui/material";
 
 const Line = styled.div`
   border-top: 0.1px solid #adacac;
@@ -13,11 +15,31 @@ const HeadingWrap = styled.div`
   align-items: center;
 `;
 
-const Heading = () => {
+const SettingButton = styled(IconButton)`
+	position: absolute;
+  display: inline;
+	top: 10px;
+	left: 10px;
+`;
+
+const H1Title = styled.h1`
+  display: inline;
+`;
+
+interface HeadingProps {
+  showSettings?: boolean;
+}
+
+const Heading = ({ showSettings = false }: HeadingProps) => {
   return (
     <HeadingWrap>
-      <h1>YouTube Summarizer</h1>
-      <Line />
+      <H1Title>YouTube Summarizer</H1Title>
+      {showSettings && 
+        <SettingButton> 
+          <SettingsOutlinedIcon/>
+        </SettingButton>
+      }
+      <Line/>
     </HeadingWrap>
   );
 };

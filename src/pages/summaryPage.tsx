@@ -5,6 +5,7 @@ import { useRef, useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 
+
 const SummaryDiv = styled.div`
 	width: 323px;
 	height: 500px;
@@ -94,7 +95,7 @@ const SummaryPage: React.FC = () => {
 	if (result) {
 		return (
 			<SummaryDiv>
-				<Heading />
+				<Heading showSettings={true}/>
 				<SummaryPaper ref={summaryRef}>
 					<Summary summaryText={summaryText} />
 				</SummaryPaper>
@@ -104,7 +105,7 @@ const SummaryPage: React.FC = () => {
 	} else {
 		return (
 			<SummarizeDiv>
-				<Heading />
+				<Heading showSettings={true}/>
 				<LongButton buttonText="Generate Summary" onClick={fetchData} />
 			</SummarizeDiv>
 		);
