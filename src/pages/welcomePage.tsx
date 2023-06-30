@@ -24,7 +24,7 @@ const WelcomeDiv = styled.div`
   justify-content: center;
 `;
 
-const WelcomePage = () => {
+const WelcomePage: React.FC = () => {
   const navigate = useNavigate();
 
   const apiKeyRef = useRef<HTMLInputElement | null>(null);
@@ -43,7 +43,7 @@ const WelcomePage = () => {
       console.log("Language: ", language);
       chrome.storage.sync.set({ apiKey: apiKey, language: language });
     }
-    navigate("/setting");
+    navigate("/summary");
   };
 
   // Get values
