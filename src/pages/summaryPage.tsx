@@ -3,7 +3,7 @@ import { Summary } from "../components/Summary";
 import { Heading } from "../components/Heading";
 import { useRef, useEffect, useState } from "react";
 import styled from "styled-components";
-import axios from "axios";
+import { fetchData } from "../utils/fetchData";
 
 const SummaryDiv = styled.div`
 	width: 323px;
@@ -44,39 +44,13 @@ const SummaryPage: React.FC = () => {
 		}
 	};
 
-	const fetchData = async () => {
-		try {
-			const apiKey = chrome.storage.sync.get("apiKey");
-			const language = chrome.storage.sync.get("language");
-
-			const url = new URL(currentURL);
-			const videoId = url.searchParams.get("v");
-
-			const response = await axios
-				.create({
-					baseURL:
-						"https://youtubesummarizer-node-backend-b3ijrlrwga-as.a.run.app",
-				})
-				.post("/data", {
-					apiKey: apiKey,
-					video_id: videoId,
-					language: language,
-				});
-
-			// const response = await axios.create({baseURL: 'https://youtubesummarizer-node-backend-b3ijrlrwga-as.a.run.app'}).post('/data', {
-			//   "apiKey":"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",
-			//   "video_id": "J0uLst8JGr8",
-			//   "language": "Chinese"});
-
-			if (response.data && response.data.content) {
-				setSummaryText(response.data.content);
-
+	const handleFetchData = async () => {
+		const content = await fetchData(currentURL);
+		if (content) {
+				setSummaryText(content);
 				setResult(true);
-			}
-		} catch (error) {
-			console.error(error);
 		}
-	};
+};
 
 	useEffect(() => {
 		const handlePopState = () => {
@@ -84,7 +58,7 @@ const SummaryPage: React.FC = () => {
 		};
 		window.addEventListener("popstate", handlePopState);
 
-		fetchData();
+		handleFetchData();
 
 		return () => {
 			window.removeEventListener("popstate", handlePopState);
@@ -105,7 +79,7 @@ const SummaryPage: React.FC = () => {
 		return (
 			<SummarizeDiv>
 				<Heading />
-				<LongButton buttonText="Generate Summary" onClick={fetchData} />
+				<LongButton buttonText="Generate Summary" onClick={handleFetchData} />
 			</SummarizeDiv>
 		);
 	}
