@@ -1,4 +1,3 @@
-// api.ts
 import axios from "axios";
 
 const fetchData = async (currentURL: string) => {
@@ -25,8 +24,6 @@ const fetchData = async (currentURL: string) => {
     } catch (error) {
         console.error(error);
     }
-
-    return null;
 };
 
-export {fetchData};
+export { fetchData };
