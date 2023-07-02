@@ -15,38 +15,44 @@ interface OnPageCardProps {
 }
 
 const StyledDiv = styled.div`
-	margin-top: 20px;
+	margin-top: 15px;
 `;
 
 const StyledSummary = styled.div`
 	margin-top: 20px;
+	
 `;
 
 const OnPageCard: React.FC<OnPageCardProps> = ({ isDarkTheme }) => {
-	const [currentUrl, setCurrentUrl] = useState("");
 	const [summaryText, setSummaryText] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
+	const [checkSetting, setCheckSetting] = useState(false);
 
-	// Update currentUrl whenever the URL changes
+	const checkSettings = () => {
+		chrome.storage.sync.get(["apiKey", "language"], (items) => {
+			if (items.apiKey && items.language) {
+				setCheckSetting(true);
+			} else {
+				console.log("Missing api and language.")
+			}
+		});
+	};
+
 	useEffect(() => {
-		const updateUrl = () => {
-			setCurrentUrl(window.location.href);
-		};
-
-		// Listen for changes in the URL
-		window.addEventListener("popstate", updateUrl);
-
-		// Remove the event listener when the component unmounts
-		return () => {
-			window.removeEventListener("popstate", updateUrl);
-		};
-	}, []);
+		checkSettings();
+	}, [])
 
 	const handleFetchData = async () => {
 		setIsLoading(true);
-		const data = await fetchData(currentUrl);
-		setSummaryText(data.content);
-		setIsLoading(false);
+		try {
+			const data = await fetchData(window.location.href);
+			setSummaryText(data);
+		} catch (error) {
+			console.error(error);
+			setSummaryText("Error in summarizing. Please try again. ");
+		} finally {
+			setIsLoading(false);
+		}
 	};
 
 	// Create a theme instance.
@@ -59,7 +65,7 @@ const OnPageCard: React.FC<OnPageCardProps> = ({ isDarkTheme }) => {
 	return (
 		<StyledDiv>
 			<ThemeProvider theme={theme}>
-				<Card sx={{ minWidth: 275, borderRadius: 4 }}>
+				<Card sx={{ minWidth: 275, borderRadius: 3 }}>
 					<CardContent>
 						<Box
 							sx={{
@@ -78,13 +84,21 @@ const OnPageCard: React.FC<OnPageCardProps> = ({ isDarkTheme }) => {
 							/>
 						</Box>
 						<Typography variant="body2">
-							<StyledSummary>
-								{isLoading ? (
-									<Skeleton animation="wave" />
-								) : (
-									<Summary summaryText={summaryText} />
-								)}
-							</StyledSummary>
+							{checkSetting ? (
+								<StyledSummary>
+									{isLoading ? (
+										<div>
+											<Skeleton animation="wave" />
+											<Skeleton animation="wave" />
+											<Skeleton animation="wave" />
+										</div>
+									) : (
+										<Summary summaryText={summaryText} />
+									)}
+								</StyledSummary>
+							) : (
+								<Summary summaryText={"Please set API key and language in the extension popup, then refresh the page."} />
+							)}
 						</Typography>
 					</CardContent>
 				</Card>
